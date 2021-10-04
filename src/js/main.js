@@ -22,8 +22,8 @@ window.addEventListener('DOMContentLoaded', ()=>{
     mask('[name="phone"]');
     checkTextInputs('[name="name"]');
     checkTextInputs('[name="message"]');
-    // showMoreStyles('.button-styles', '.styles-2'); //вариант показа скрытых карточек на стр
-    showMoreStyles('.button-styles', '#styles .row'); //вариант размещения карточек на стр из базы данных
+    showMoreStyles('.button-styles', '.styles-2'); //вариант показа скрытых карточек на стр
+    // showMoreStyles('.button-styles', '#styles .row'); //вариант размещения карточек на стр из базы данных
     calc('#size', '#material', '#options', '.promocode', '.calc-price');
     filter();
     pictureSize('.sizes-block');

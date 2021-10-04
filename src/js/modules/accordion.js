@@ -39,7 +39,7 @@ export default accordion;
 //         blocks = document.querySelectorAll(itemsSelector);
 
 
-//     blocks.forEach(block =>{                //подк к каждому контенту анимацию с плавным появлением
+//     blocks.forEach(block =>{                
 //         block.classList.remove('animated', 'fadeInDown');
 //     });        
 

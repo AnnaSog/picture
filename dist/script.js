@@ -543,29 +543,6 @@ module.exports = function (target, source) {
 
 /***/ }),
 
-/***/ "./node_modules/core-js/internals/create-html.js":
-/*!*******************************************************!*\
-  !*** ./node_modules/core-js/internals/create-html.js ***!
-  \*******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var requireObjectCoercible = __webpack_require__(/*! ../internals/require-object-coercible */ "./node_modules/core-js/internals/require-object-coercible.js");
-
-var quot = /"/g;
-
-// B.2.3.2.1 CreateHTML(string, tag, attribute, value)
-// https://tc39.github.io/ecma262/#sec-createhtml
-module.exports = function (string, tag, attribute, value) {
-  var S = String(requireObjectCoercible(string));
-  var p1 = '<' + tag;
-  if (attribute !== '') p1 += ' ' + attribute + '="' + String(value).replace(quot, '&quot;') + '"';
-  return p1 + '>' + S + '</' + tag + '>';
-};
-
-
-/***/ }),
-
 /***/ "./node_modules/core-js/internals/create-non-enumerable-property.js":
 /*!**************************************************************************!*\
   !*** ./node_modules/core-js/internals/create-non-enumerable-property.js ***!
@@ -923,27 +900,6 @@ module.exports = function (KEY, length, exec, sham) {
     );
     if (sham) createNonEnumerableProperty(RegExp.prototype[SYMBOL], 'sham', true);
   }
-};
-
-
-/***/ }),
-
-/***/ "./node_modules/core-js/internals/forced-string-html-method.js":
-/*!*********************************************************************!*\
-  !*** ./node_modules/core-js/internals/forced-string-html-method.js ***!
-  \*********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var fails = __webpack_require__(/*! ../internals/fails */ "./node_modules/core-js/internals/fails.js");
-
-// check the existence of a method, lowercase
-// of a tag and escaping quotes in arguments
-module.exports = function (METHOD_NAME) {
-  return fails(function () {
-    var test = ''[METHOD_NAME]('"');
-    return test !== test.toLowerCase() || test.split('"').length > 3;
-  });
 };
 
 
@@ -3233,30 +3189,6 @@ $({ target: PROMISE, stat: true, forced: INCORRECT_ITERATION }, {
 
 /***/ }),
 
-/***/ "./node_modules/core-js/modules/es.string.link.js":
-/*!********************************************************!*\
-  !*** ./node_modules/core-js/modules/es.string.link.js ***!
-  \********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var $ = __webpack_require__(/*! ../internals/export */ "./node_modules/core-js/internals/export.js");
-var createHTML = __webpack_require__(/*! ../internals/create-html */ "./node_modules/core-js/internals/create-html.js");
-var forcedStringHTMLMethod = __webpack_require__(/*! ../internals/forced-string-html-method */ "./node_modules/core-js/internals/forced-string-html-method.js");
-
-// `String.prototype.link` method
-// https://tc39.github.io/ecma262/#sec-string.prototype.link
-$({ target: 'String', proto: true, forced: forcedStringHTMLMethod('link') }, {
-  link: function link(url) {
-    return createHTML(this, 'a', 'href', url);
-  }
-});
-
-
-/***/ }),
-
 /***/ "./node_modules/core-js/modules/es.string.match.js":
 /*!*********************************************************!*\
   !*** ./node_modules/core-js/modules/es.string.match.js ***!
@@ -4436,9 +4368,9 @@ window.addEventListener('DOMContentLoaded', function () {
   Object(_modules_forms__WEBPACK_IMPORTED_MODULE_2__["default"])();
   Object(_modules_mask__WEBPACK_IMPORTED_MODULE_3__["default"])('[name="phone"]');
   Object(_modules_checkTextInputs__WEBPACK_IMPORTED_MODULE_4__["default"])('[name="name"]');
-  Object(_modules_checkTextInputs__WEBPACK_IMPORTED_MODULE_4__["default"])('[name="message"]'); // showMoreStyles('.button-styles', '.styles-2'); //вариант показа скрытых карточек на стр
-
-  Object(_modules_showMoreStyles__WEBPACK_IMPORTED_MODULE_5__["default"])('.button-styles', '#styles .row'); //вариант размещения карточек на стр из базы данных
+  Object(_modules_checkTextInputs__WEBPACK_IMPORTED_MODULE_4__["default"])('[name="message"]');
+  Object(_modules_showMoreStyles__WEBPACK_IMPORTED_MODULE_5__["default"])('.button-styles', '.styles-2'); //вариант показа скрытых карточек на стр
+  // showMoreStyles('.button-styles', '#styles .row'); //вариант размещения карточек на стр из базы данных
 
   Object(_modules_calc__WEBPACK_IMPORTED_MODULE_6__["default"])('#size', '#material', '#options', '.promocode', '.calc-price');
   Object(_modules_filter__WEBPACK_IMPORTED_MODULE_7__["default"])();
@@ -4496,7 +4428,7 @@ var accordion = function accordion(triggersSelector) {
 // const accordion = (triggersSelector, itemsSelector) =>{
 //     const btns = document.querySelectorAll(triggersSelector),
 //         blocks = document.querySelectorAll(itemsSelector);
-//     blocks.forEach(block =>{                //подк к каждому контенту анимацию с плавным появлением
+//     blocks.forEach(block =>{                
 //         block.classList.remove('animated', 'fadeInDown');
 //     });        
 //     btns.forEach(btn =>{
@@ -4560,94 +4492,35 @@ var burger = function burger(burgerSelector, menuSelector) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _services_requests__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../services/requests */ "./src/js/services/requests.js");
-
-
 var calc = function calc(size, material, options, promocode, result) {
   var sizeBlock = document.querySelector(size),
       materialBlock = document.querySelector(material),
       optionsBlock = document.querySelector(options),
       promocodeBlock = document.querySelector(promocode),
       resultBlock = document.querySelector(result);
-  var sum = 0; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  // function resCalc(event, elem){
-  //     elem.addEventListener(event, ()=>{
-  //         if (elem.value===){
-  //             sum = Math.round((+sizeBlock.value) *  (+materialBlock.value) + (+optionsBlock.value));
-  //             if(sizeBlock.value == '' || materialBlock.value == ''){
-  //                 resultBlock.textContent = 'Необходимо выбрать размер картины и материал картины';
-  //             }else if(promocodeBlock.value === 'IWANTPOPART'){
-  //                 resultBlock.textContent = Math.round(sum * 0.7);
-  //             }else{
-  //                 resultBlock.textContent = sum;
-  //             }
-  //         }
-  //     });
-  // }
+  var sum = 0;
 
   var calcFunc = function calcFunc() {
     sum = Math.round(+sizeBlock.value * +materialBlock.value + +optionsBlock.value);
 
     if (sizeBlock.value == '' || materialBlock.value == '') {
+      //Обязательны к выбору - первые 2 селекта
       resultBlock.textContent = 'Необходимо выбрать размер картины и материал картины';
     } else if (promocodeBlock.value === 'IWANTPOPART') {
+      //Если в поле “Промокод” введен IWANTPOPART, то общая сумма уменьшается на 30%
       resultBlock.textContent = Math.round(sum * 0.7);
     } else {
       resultBlock.textContent = sum;
     }
   };
 
-  sizeBlock.addEventListener('change', function () {
-    Object(_services_requests__WEBPACK_IMPORTED_MODULE_0__["getResource"])('http://localhost:3000/size').then(function (res) {
-      console.log(res);
-      calcFunc();
-    }).catch(function (err) {
-      return console.log(err);
-    });
-  });
-  materialBlock.addEventListener('change', function () {
-    Object(_services_requests__WEBPACK_IMPORTED_MODULE_0__["getResource"])('http://localhost:3000/material').then(function (res) {
-      console.log(res);
-      calcFunc();
-    }).catch(function (err) {
-      return console.log(err);
-    });
-  });
-  optionsBlock.addEventListener('change', function () {
-    Object(_services_requests__WEBPACK_IMPORTED_MODULE_0__["getResource"])('http://localhost:3000/options').then(function (res) {
-      console.log(res);
-      calcFunc();
-    }).catch(function (err) {
-      return console.log(err);
-    });
-  });
+  sizeBlock.addEventListener('change', calcFunc);
+  materialBlock.addEventListener('change', calcFunc);
+  optionsBlock.addEventListener('change', calcFunc);
   promocodeBlock.addEventListener('input', calcFunc);
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (calc); //ВАРИАНТ ЗАГРУЖКИ ДАННЫХ ИЗ ВЕРТСКИ (необходимо в value указать стои-ть)
-// const calc = (size, material, options, promocode, result) =>{
-//     const sizeBlock = document.querySelector(size),
-//         materialBlock = document.querySelector(material),
-//         optionsBlock = document.querySelector(options),
-//         promocodeBlock = document.querySelector(promocode),
-//         resultBlock = document.querySelector(result);
-//     let sum = 0;
-//     const calcFunc = () =>{
-//         sum = Math.round((+sizeBlock.value) *  (+materialBlock.value) + (+optionsBlock.value));
-//         if(sizeBlock.value == '' || materialBlock.value == ''){          //Обязательны к выбору - первые 2 селекта
-//             resultBlock.textContent = 'Необходимо выбрать размер картины и материал картины'; 
-//         }else if(promocodeBlock.value === 'IWANTPOPART'){        //Если в поле “Промокод” введен IWANTPOPART, то общая сумма уменьшается на 30%
-//             resultBlock.textContent = Math.round(sum * 0.7);
-//         }else{
-//             resultBlock.textContent = sum;
-//         }
-//     };
-//     sizeBlock.addEventListener('change', calcFunc);
-//     materialBlock.addEventListener('change', calcFunc);
-//     optionsBlock.addEventListener('change', calcFunc);
-//     promocodeBlock.addEventListener('input', calcFunc);
-// };
-// export default calc;
+/* harmony default export */ __webpack_exports__["default"] = (calc);
 
 /***/ }),
 
@@ -4705,6 +4578,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_js_modules_es_string_split__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_split__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
 /* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _services_requests__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services/requests */ "./src/js/services/requests.js");
+
 
 
 
@@ -4732,7 +4607,7 @@ var drop = function drop() {
 
   function highlight(item) {
     //item - эл ктр необходимо подсветить
-    item.closest('.file_upload').style.border = "5px solid yellow"; //closest - ближайший
+    item.closest('.file_upload').style.border = "5px solid yellow"; //closest - ищет блок выше по иерархии 
 
     item.closest('.file_upload').style.backgroundColor = "rgba(0,0,0, .7)";
   }
@@ -4742,7 +4617,7 @@ var drop = function drop() {
     item.closest('.file_upload').style.border = "none";
 
     if (item.closest('.calc_form')) {
-      //если у форму есть этот родитель
+      //если у формы есть этот родитель
       item.closest('.file_upload').style.backgroundColor = "#fff"; //то фон становится белым
     } else {
       item.closest('.file_upload').style.backgroundColor = "#ededed"; //если нет, то фон серый (как в мод окне)
@@ -4779,6 +4654,19 @@ var drop = function drop() {
 
       var name = arr[0].substring(0, 6) + dots + arr[1];
       input.previousElementSibling.textContent = name; //в предыд.эл (Файл не выбран) помещаем переменую name
+      // postData для блока с загрузкой фото, но без кнопки отправить "Отправить"
+
+      if (input.closest('.mail')) {
+        var formData = new FormData();
+        input.files.forEach(function (file) {
+          formData.append('image', file);
+          Object(_services_requests__WEBPACK_IMPORTED_MODULE_3__["postData"])('assets/server.php', formData).then(function (res) {
+            return console.log(res);
+          }).catch(function (err) {
+            return console.log(err);
+          });
+        });
+      }
     });
   });
 };
@@ -5401,66 +5289,61 @@ var scrolling = function scrolling(upSelector) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.array.concat */ "./node_modules/core-js/modules/es.array.concat.js");
-/* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_js_modules_es_string_link__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es.string.link */ "./node_modules/core-js/modules/es.string.link.js");
-/* harmony import */ var core_js_modules_es_string_link__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_link__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
-/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _services_requests__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services/requests */ "./src/js/services/requests.js");
-
-
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _services_requests__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../services/requests */ "./src/js/services/requests.js");
 
  //ВАРИАНТ ПОДГРУЗКИ КАРТОЧЕК НА СТР ИЗ БАЗЫ ДАННЫХ (С СЕРВЕРА)
-
-var showMoreStyles = function showMoreStyles(trigger, wrapper) {
-  var btn = document.querySelector(trigger);
-  btn.addEventListener('click', function () {
-    // getResource('assets/db.json') //можно сразу прописать адрес к базе данных, не использ.сервер
-    //.then(res=>createCard(res.styles)) //styles - объект со стилями в db.json
-    Object(_services_requests__WEBPACK_IMPORTED_MODULE_3__["getResource"])('http://localhost:3000/styles').then(function (res) {
-      return createCard(res);
-    }).catch(function () {
-      var statusMessage = document.createElement('div');
-      statusMessage.classList.add('status');
-      statusMessage.textContent = "Что-то пошло не так..";
-      statusMessage.style.cssText = 'text-align: center;font-size: 250%;color:red';
-      document.querySelector(wrapper).appendChild(statusMessage);
-    });
-    this.remove();
-  });
-
-  function createCard(resporse) {
-    //после получен.ответа от сервера будет создан блок с карточками с данными из bd.json
-    resporse.forEach(function (_ref) {
-      var src = _ref.src,
-          title = _ref.title,
-          link = _ref.link;
-      //из item(resporse) сразу вытаскиваем эти переменные, прописав в {}
-      var card = document.createElement('div');
-      card.classList.add('animated', 'fadeInUp', 'col-sm-3', 'col-sm-offset-0', 'col-xs-10', 'col-xs-offset-1');
-      card.innerHTML = "\n            <div class='styles-block'>\n                <img src=".concat(src, " alt ='style'>\n                <h4>").concat(title, "</h4>\n                <a href=").concat(link, ">\u041F\u043E\u0434\u0440\u043E\u0431\u043D\u0435\u0435</a>\n            </div>\n            ");
-      document.querySelector(wrapper).appendChild(card); //получаем доступ к обертке куда разместим наш блок
-    });
-  }
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (showMoreStyles); //ВАРИАНТ ПОКАЗА СКРЫТЫХ КАРТОЧЕК (ИЗ ВЕРТСТКИ) НА СТР (необходимо добавить эти блоки в вертску) 
-// const showMoreStyles = (trigger, styles) =>{
-//     const btn = document.querySelector(trigger),
-//         cards = document.querySelectorAll(styles);
-//     cards.forEach(card => {
-//         card.classList.add('animated', 'fadeInUp');   //назначаем анимацию всем карточкам
+// const showMoreStyles = (trigger, wrapper) =>{
+//     const btn = document.querySelector(trigger);
+//     btn.addEventListener('click', function(){
+//        // getResource('assets/db.json') //можно сразу прописать адрес к базе данных, не использ.сервер
+//             //.then(res=>createCard(res.styles)) //styles - объект со стилями в db.json
+//         getResource('http://localhost:3000/styles')
+//             .then(res=>createCard(res))
+//             .catch (()=>{
+//                 let statusMessage = document.createElement('div');
+//                 statusMessage.classList.add('status');
+//                 statusMessage.textContent= "Что-то пошло не так..";
+//                 statusMessage.style.cssText = 'text-align: center;font-size: 250%;color:red'; 
+//                 document.querySelector(wrapper).appendChild(statusMessage);
+//             });    
+//         this.remove();
 //     });
-//     btn.addEventListener('click', () => {
-//         cards.forEach(card => {
-//             card.classList.remove('hidden-lg', 'hidden-md', 'hidden-sm', 'hidden-xs');
-//             card.classList.add('col-sm-3', 'col-sm-offset-0', 'col-xs-10', 'col-xs-offset-1');
+//     function createCard(resporse){                      //после получен.ответа от сервера будет создан блок с карточками с данными из bd.json
+//         resporse.forEach(({src, title, link}) =>{       //из item(resporse) сразу вытаскиваем эти переменные, прописав в {}
+//             let card = document.createElement('div');
+//             card.classList.add('animated', 'fadeInUp', 'col-sm-3', 'col-sm-offset-0', 'col-xs-10', 'col-xs-offset-1');
+//             card.innerHTML = `
+//             <div class='styles-block'>
+//                 <img src=${src} alt ='style'>
+//                 <h4>${title}</h4>
+//                 <a href=${link}>Подробнее</a>
+//             </div>
+//             `;
+//             document.querySelector(wrapper).appendChild(card);  //получаем доступ к обертке куда разместим наш блок
 //         });
-//         btn.remove();
-//     });
+//     }
 // };
 // export default showMoreStyles;
+//ВАРИАНТ ПОКАЗА СКРЫТЫХ КАРТОЧЕК (ИЗ ВЕРТСТКИ) НА СТР (необходимо добавить эти блоки в вертску) 
+
+var showMoreStyles = function showMoreStyles(trigger, styles) {
+  var btn = document.querySelector(trigger),
+      cards = document.querySelectorAll(styles);
+  cards.forEach(function (card) {
+    card.classList.add('animated', 'fadeInUp'); //назначаем анимацию всем карточкам
+  });
+  btn.addEventListener('click', function () {
+    cards.forEach(function (card) {
+      card.classList.remove('hidden-lg', 'hidden-md', 'hidden-sm', 'hidden-xs');
+      card.classList.add('col-sm-3', 'col-sm-offset-0', 'col-xs-10', 'col-xs-offset-1');
+    });
+    btn.remove();
+  });
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (showMoreStyles);
 
 /***/ }),
 
